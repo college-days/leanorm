@@ -1,15 +1,11 @@
 package com.darfootech.dbdemo;
 
 import android.app.Activity;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
-import android.widget.TextView;
 
 import com.darfootech.dbdemo.darfooorm.Configuration;
-import com.darfootech.dbdemo.darfooorm.DarfooORMCota;
 import com.darfootech.dbdemo.darfooorm.DarfooORMDao;
-import com.darfootech.dbdemo.darfooorm.DarfooORMManager;
 import com.darfootech.dbdemo.models.DanceVideo;
 
 import java.util.List;
@@ -29,31 +25,54 @@ public class MockUp extends Activity {
 
         //new DarfooORMCota().dropTable(DarfooORMManager.helper.getWritableDatabase());
 
-        /*DanceVideo video = new DanceVideo();
-        video.title = "hehe";
-        video.id = 3;
-        video.save();*/
+        showVideos();
+        deleteVideos();
+        showVideos();
+    }
 
+    public void insertVideos() {
+        for (int i = 0; i < 10; i++) {
+            DanceVideo video = new DanceVideo();
+            video.title = "hehe" + i;
+            video.id = 3;
+            video.save();
+        }
+    }
+
+    public void showVideos() {
+        List<DanceVideo> videos = DarfooORMDao.selectAll(DanceVideo.class);
+        Log.d("DARFOO_ORM", videos.size() + "");
+        for (DanceVideo v : videos) {
+            Log.d("DARFOO_ORM", v.toString());
+        }
+    }
+
+    public void updateVideos() {
         List<DanceVideo> videos = DarfooORMDao.selectAll(DanceVideo.class);
         Log.d("DARFOO_ORM", videos.size() + "");
         for (DanceVideo v : videos) {
             Log.d("DARFOO_ORM", v.title);
             v.title = "meme";
-            //v.save();
-            v.delete();
+            v.save();
         }
+    }
 
-        videos = DarfooORMDao.selectAll(DanceVideo.class);
+    public void deleteVideos() {
+        List<DanceVideo> videos = DarfooORMDao.selectAll(DanceVideo.class);
         Log.d("DARFOO_ORM", videos.size() + "");
         for (DanceVideo v : videos) {
-            Log.d("DARFOO_ORM", v.toString());
+            Log.d("DARFOO_ORM", v.title);
+            v.title = "meme";
+            v.delete();
         }
+    }
 
-        /*DanceVideo video = DarfooORMDao.findById(DanceVideo.class, 3);
+    public void singleVideo() {
+        DanceVideo video = DarfooORMDao.findById(DanceVideo.class, 3);
         Log.d("DARFOO_ORM", video.toString());
         video.title = "cleantha";
         video.save();
         video = DarfooORMDao.findById(DanceVideo.class, 3);
-        Log.d("DARFOO_ORM", video.toString());*/
+        Log.d("DARFOO_ORM", video.toString());
     }
 }

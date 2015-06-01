@@ -62,7 +62,7 @@ public abstract class DarfooORMModel {
 
             Log.d("DARFOO_ORM", "start to insert record");
             String tablename = getClass().getSimpleName().toLowerCase();
-            if (mId == null) {
+            if (mId == null || mId == 0) {
                 Log.d("DARFOO_ORM", "insert record");
                 db.insert(tablename, null, values);
             } else {
