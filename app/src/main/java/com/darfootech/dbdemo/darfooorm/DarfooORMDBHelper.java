@@ -1,6 +1,5 @@
 package com.darfootech.dbdemo.darfooorm;
 
-import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
@@ -15,7 +14,8 @@ public class DarfooORMDBHelper extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-
+        new DarfooORMCota().createTable(db);
+        //new DarfooORMCota().dropTable(db);
     }
 
     @Override

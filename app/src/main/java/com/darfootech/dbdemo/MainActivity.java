@@ -13,6 +13,10 @@ import android.widget.TextView;
 
 import com.darfootech.dbdemo.darfooorm.Configuration;
 import com.darfootech.dbdemo.darfooorm.DarfooORMCota;
+import com.darfootech.dbdemo.darfooorm.DarfooORMDao;
+import com.darfootech.dbdemo.models.DanceVideo;
+
+import java.util.List;
 
 
 public class MainActivity extends Activity {
@@ -35,10 +39,21 @@ public class MainActivity extends Activity {
         Log.d("jihui", (Integer) Configuration.getMetaData(Configuration.DARFOO_DB_VERSION) + "");
         Log.d("jihui", (String) Configuration.getMetaData(Configuration.DARFOO_MODELS));
 
-        try {
-            new DarfooORMCota().createTable(operator.getWritableDatabase());
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
+        new DarfooORMCota().createTable(operator.getWritableDatabase());
+
+        DanceVideo video = new DanceVideo();
+        video.title = "cleantha";
+        video.id = 3;
+        video.save();
+
+        List<DanceVideo> videos = DarfooORMDao.selectAll(DanceVideo.class);
+        Log.d("DARFOO_ORM", videos.size() + "");
+        for (DanceVideo v : videos) {
+            Log.d("DARFOO_ORM", "hehe");
+            Log.d("DARFOO_ORM", v.title);
+            v.title = "meme";
+            //v.save(operator);
+            v.delete();
         }
     }
 

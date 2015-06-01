@@ -1,7 +1,6 @@
 package com.darfootech.dbdemo.darfooorm;
 
 import android.content.Context;
-import android.content.pm.ActivityInfo;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
 import android.util.Log;
@@ -25,8 +24,7 @@ public class Configuration {
             if (ai.metaData != null) {
                 return (T) ai.metaData.get(name);
             }
-        }
-        catch (Exception e) {
+        } catch (Exception e) {
             Log.d("DARFOO_ORM", "Couldn't find meta-data: " + name);
         }
 

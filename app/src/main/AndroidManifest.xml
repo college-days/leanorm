@@ -20,7 +20,7 @@
             android:value="com.darfootech.dbdemo.models.DanceVideo,com.darfootech.dbdemo.models.DanceMusic" />
 
         <activity
-            android:name=".MainActivity"
+            android:name=".MockUp"
             android:label="@string/app_name">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
