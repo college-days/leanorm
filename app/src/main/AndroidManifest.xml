@@ -14,7 +14,7 @@
             android:value="darfoo.db" />
         <meta-data
             android:name="DARFOO_DB_VERSION"
-            android:value="4" />
+            android:value="5" />
         <meta-data
             android:name="DARFOO_MODELS"
             android:value="com.darfootech.dbdemo.models.DanceVideo,com.darfootech.dbdemo.models.DanceMusic" />

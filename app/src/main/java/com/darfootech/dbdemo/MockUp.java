@@ -24,7 +24,7 @@ public class MockUp extends Activity {
         Log.d("DARFOO_ORM", (String) Configuration.getMetaData(Configuration.DARFOO_MODELS));
 
         showVideos();
-        updateVideos();
+        insertVideos();
         showVideos();
     }
 
