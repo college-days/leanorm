@@ -19,10 +19,6 @@ public class MockUp extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        Log.d("DARFOO_ORM", (String) Configuration.getMetaData(Configuration.DARFOO_DB_NAME));
-        Log.d("DARFOO_ORM", (Integer) Configuration.getMetaData(Configuration.DARFOO_DB_VERSION) + "");
-        Log.d("DARFOO_ORM", (String) Configuration.getMetaData(Configuration.DARFOO_MODELS));
-
         showVideos();
         deleteVideos();
         showVideos();
