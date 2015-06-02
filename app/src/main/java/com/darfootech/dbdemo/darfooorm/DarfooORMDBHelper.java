@@ -93,6 +93,7 @@ public class DarfooORMDBHelper extends SQLiteOpenHelper {
     }
 
     private boolean executeMigrations(SQLiteDatabase db, int oldVersion, int newVersion) {
+        Log.d("start migration");
         boolean migrationExecuted = false;
         try {
             final List<String> files = Arrays.asList(Configuration.context.getAssets().list(MIGRATION_PATH));

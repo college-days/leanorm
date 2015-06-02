@@ -12,6 +12,9 @@ public class DanceVideo extends DarfooORMModel {
     public String image_url;
     public String video_url;
     public String speedup_url;
+    public String priority;
+    public String dancegroup;
+    public String dancemusic;
     public int type;
     public int update_timestamp;
 
@@ -25,6 +28,9 @@ public class DanceVideo extends DarfooORMModel {
                 ", image_url='" + image_url + '\'' +
                 ", video_url='" + video_url + '\'' +
                 ", speedup_url='" + speedup_url + '\'' +
+                ", priority='" + priority + '\'' +
+                ", dancegroup='" + dancegroup + '\'' +
+                ", dancemusic='" + dancemusic + '\'' +
                 ", type=" + type +
                 ", update_timestamp=" + update_timestamp +
                 '}';

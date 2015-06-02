@@ -1,0 +1,1 @@
+ALTER TABLE dancevideo ADD COLUMN dancegroup VARCHAR;
