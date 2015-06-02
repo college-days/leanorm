@@ -5,7 +5,6 @@ import android.content.ContentValues;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
-import android.os.PersistableBundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -95,7 +94,7 @@ public class SqliteActivity extends Activity {
         final Cursor cursor = db.query("addressbook", null, null, null, null, null, null);
         String[] ColumnNames = cursor.getColumnNames();
 
-        ListAdapter adapter = new SimpleCursorAdapter(this, R.layout.layout, cursor, ColumnNames, new int[] {R.id.tv1, R.id.tv2, R.id.tv3});
+        ListAdapter adapter = new SimpleCursorAdapter(this, R.layout.layout, cursor, ColumnNames, new int[]{R.id.tv1, R.id.tv2, R.id.tv3});
         listView.setAdapter(adapter);
     }
 }

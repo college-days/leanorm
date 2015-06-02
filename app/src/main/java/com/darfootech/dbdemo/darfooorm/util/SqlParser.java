@@ -13,9 +13,9 @@ import java.util.List;
 
 public class SqlParser {
 
-    public final static int STATE_NONE          = 0;
-    public final static int STATE_STRING        = 1;
-    public final static int STATE_COMMENT       = 2;
+    public final static int STATE_NONE = 0;
+    public final static int STATE_STRING = 1;
+    public final static int STATE_COMMENT = 2;
     public final static int STATE_COMMENT_BLOCK = 3;
 
     public static List<String> parse(final InputStream stream) throws IOException {

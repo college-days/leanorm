@@ -19,6 +19,7 @@ public class IOUtils {
      * </p>
      * Equivalent to {@link Closeable#close()}, except any exceptions will be ignored. This is
      * typically used in finally blocks.
+     *
      * @param closeable A {@link Closeable} to close.
      */
     public static void closeQuietly(final Closeable closeable) {
@@ -40,6 +41,7 @@ public class IOUtils {
      * </p>
      * Equivalent to {@link Cursor#close()}, except any exceptions will be ignored. This is
      * typically used in finally blocks.
+     *
      * @param cursor A {@link Cursor} to close.
      */
     public static void closeQuietly(final Cursor cursor) {

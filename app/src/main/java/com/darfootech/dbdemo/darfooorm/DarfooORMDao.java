@@ -30,7 +30,7 @@ public class DarfooORMDao {
             String tablename = resource.getSimpleName().toLowerCase();
             SQLiteDatabase db = DarfooORMManager.helper.getReadableDatabase();
             //Cursor cursor = db.query(tablename, null, "_id=?", new String[]{id + ""}, null, null, null);
-            Cursor cursor = db.rawQuery("select * from " + tablename + " where " + "_id" + "='" + id + "'" , null);
+            Cursor cursor = db.rawQuery("select * from " + tablename + " where " + "_id" + "='" + id + "'", null);
             Object result = resource.newInstance();
 
             cursor.moveToFirst();

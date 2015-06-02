@@ -65,18 +65,15 @@ public class DarfooORMDBHelper extends SQLiteOpenHelper {
 
                             Log.i(file + " executed succesfully.");
                         }
-                    }
-                    catch (NumberFormatException e) {
+                    } catch (NumberFormatException e) {
                         Log.w("Skipping invalidly named file: " + file, e);
                     }
                 }
                 db.setTransactionSuccessful();
-            }
-            finally {
+            } finally {
                 db.endTransaction();
             }
-        }
-        catch (IOException e) {
+        } catch (IOException e) {
             Log.e("Failed to execute migrations.", e);
         }
 
@@ -111,7 +108,7 @@ public class DarfooORMDBHelper extends SQLiteOpenHelper {
 
         List<String> commands = SqlParser.parse(stream);
 
-        for(String command : commands) {
+        for (String command : commands) {
             db.execSQL(command);
         }
     }
