@@ -9,10 +9,14 @@ import com.darfootech.dbdemo.darfooorm.util.Log;
 import com.darfootech.dbdemo.darfooorm.util.NaturalOrderComparator;
 import com.darfootech.dbdemo.darfooorm.util.SqlParser;
 
+import org.apache.commons.lang3.StringUtils;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.lang.reflect.Field;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
@@ -38,13 +42,54 @@ public class DarfooORMDBHelper extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-        new DarfooORMCota().createTable(db);
-        //new DarfooORMCota().dropTable(db);
+        createTable(db);
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
+        createTable(db);
+        executeMigrations(db, oldVersion, newVersion);
+    }
 
+    public void dropTable(SQLiteDatabase db) {
+        try {
+            String[] classeNames = ((String) Configuration.getMetaData(Configuration.DARFOO_MODELS)).split(",");
+            for (String name : classeNames) {
+                Class<? extends DarfooORMModel> resource = null;
+                resource = (Class<? extends DarfooORMModel>) Class.forName(name);
+                String dropsql = String.format("DROP TABLE IF EXISTS %s", resource.getSimpleName().toLowerCase());
+                android.util.Log.d("DARFOO_ORM", dropsql);
+                db.execSQL(dropsql);
+            }
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void createTable(SQLiteDatabase db) {
+        try {
+            String[] classeNames = ((String) Configuration.getMetaData(Configuration.DARFOO_MODELS)).split(",");
+            for (String name : classeNames) {
+                Class<? extends DarfooORMModel> resource = (Class<? extends DarfooORMModel>) Class.forName(name);
+                List<String> statements = new ArrayList<String>();
+                for (Field field : resource.getFields()) {
+                    String fieldName = field.getName();
+                    if (fieldName.toLowerCase().equals("_id")) {
+                        continue;
+                    }
+                    android.util.Log.d("DARFOO_ORM", "field name -> " + fieldName);
+                    Class<?> fieldType = field.getType();
+                    android.util.Log.d("DARFOO_ORM", "field type name -> " + fieldType);
+                    statements.add(String.format("%s %s", fieldName, TypeClassMapping.typeClassMapping.get(fieldType)));
+                }
+                //default use _id as the primary key for specific table
+                String createsql = String.format("CREATE TABLE IF NOT EXISTS %s (_id INTEGER PRIMARY KEY AUTOINCREMENT DEFAULT 1, %s)", resource.getSimpleName().toLowerCase(), StringUtils.join(statements, ", "));
+                android.util.Log.d("DARFOO_ORM", createsql);
+                db.execSQL(createsql);
+            }
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
     }
 
     private boolean executeMigrations(SQLiteDatabase db, int oldVersion, int newVersion) {
@@ -81,9 +126,7 @@ public class DarfooORMDBHelper extends SQLiteOpenHelper {
     }
 
     private void executeSqlScript(SQLiteDatabase db, String file) {
-
         InputStream stream = null;
-
         try {
             stream = Configuration.context.getAssets().open(MIGRATION_PATH + "/" + file);
 
@@ -92,7 +135,6 @@ public class DarfooORMDBHelper extends SQLiteOpenHelper {
 
             } else {
                 executeLegacySqlScript(db, stream);
-
             }
 
         } catch (IOException e) {
@@ -100,21 +142,17 @@ public class DarfooORMDBHelper extends SQLiteOpenHelper {
 
         } finally {
             IOUtils.closeQuietly(stream);
-
         }
     }
 
     private void executeDelimitedSqlScript(SQLiteDatabase db, InputStream stream) throws IOException {
-
         List<String> commands = SqlParser.parse(stream);
-
         for (String command : commands) {
             db.execSQL(command);
         }
     }
 
     private void executeLegacySqlScript(SQLiteDatabase db, InputStream stream) throws IOException {
-
         InputStreamReader reader = null;
         BufferedReader buffer = null;
 
@@ -129,12 +167,9 @@ public class DarfooORMDBHelper extends SQLiteOpenHelper {
                     db.execSQL(line);
                 }
             }
-
         } finally {
             IOUtils.closeQuietly(buffer);
             IOUtils.closeQuietly(reader);
-
         }
     }
-
 }

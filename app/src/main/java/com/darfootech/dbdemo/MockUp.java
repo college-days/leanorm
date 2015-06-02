@@ -23,8 +23,6 @@ public class MockUp extends Activity {
         Log.d("DARFOO_ORM", (Integer) Configuration.getMetaData(Configuration.DARFOO_DB_VERSION) + "");
         Log.d("DARFOO_ORM", (String) Configuration.getMetaData(Configuration.DARFOO_MODELS));
 
-        //new DarfooORMCota().dropTable(DarfooORMManager.helper.getWritableDatabase());
-
         showVideos();
         deleteVideos();
         showVideos();
@@ -40,7 +38,7 @@ public class MockUp extends Activity {
     }
 
     public void showVideos() {
-        List<DanceVideo> videos = DarfooORMDao.selectAll(DanceVideo.class);
+        List<DanceVideo> videos = DarfooORMDao.findAll(DanceVideo.class);
         Log.d("DARFOO_ORM", videos.size() + "");
         for (DanceVideo v : videos) {
             Log.d("DARFOO_ORM", v.toString());
@@ -48,7 +46,7 @@ public class MockUp extends Activity {
     }
 
     public void updateVideos() {
-        List<DanceVideo> videos = DarfooORMDao.selectAll(DanceVideo.class);
+        List<DanceVideo> videos = DarfooORMDao.findAll(DanceVideo.class);
         Log.d("DARFOO_ORM", videos.size() + "");
         for (DanceVideo v : videos) {
             Log.d("DARFOO_ORM", v.title);
@@ -58,7 +56,7 @@ public class MockUp extends Activity {
     }
 
     public void deleteVideos() {
-        List<DanceVideo> videos = DarfooORMDao.selectAll(DanceVideo.class);
+        List<DanceVideo> videos = DarfooORMDao.findAll(DanceVideo.class);
         Log.d("DARFOO_ORM", videos.size() + "");
         for (DanceVideo v : videos) {
             Log.d("DARFOO_ORM", v.title);

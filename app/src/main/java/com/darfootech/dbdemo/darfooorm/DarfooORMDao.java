@@ -29,7 +29,6 @@ public class DarfooORMDao {
         try {
             String tablename = resource.getSimpleName().toLowerCase();
             SQLiteDatabase db = DarfooORMManager.helper.getReadableDatabase();
-            //Cursor cursor = db.query(tablename, null, "_id=?", new String[]{id + ""}, null, null, null);
             Cursor cursor = db.rawQuery("select * from " + tablename + " where " + "_id" + "='" + id + "'", null);
             Object result = resource.newInstance();
 
@@ -66,7 +65,7 @@ public class DarfooORMDao {
         return null;
     }
 
-    public static <T> List<T> selectAll(final Class<T> resource) {
+    public static <T> List<T> findAll(final Class<T> resource) {
         Log.d("DARFOO_ORM", "start to select all records");
         String tablename = resource.getSimpleName().toLowerCase();
         SQLiteDatabase db = DarfooORMManager.helper.getReadableDatabase();

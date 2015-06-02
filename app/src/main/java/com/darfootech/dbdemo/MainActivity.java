@@ -12,7 +12,6 @@ import android.view.MenuItem;
 import android.widget.TextView;
 
 import com.darfootech.dbdemo.darfooorm.Configuration;
-import com.darfootech.dbdemo.darfooorm.DarfooORMCota;
 import com.darfootech.dbdemo.darfooorm.DarfooORMDao;
 import com.darfootech.dbdemo.models.DanceVideo;
 
@@ -39,14 +38,12 @@ public class MainActivity extends Activity {
         Log.d("jihui", (Integer) Configuration.getMetaData(Configuration.DARFOO_DB_VERSION) + "");
         Log.d("jihui", (String) Configuration.getMetaData(Configuration.DARFOO_MODELS));
 
-        new DarfooORMCota().createTable(operator.getWritableDatabase());
-
         DanceVideo video = new DanceVideo();
         video.title = "cleantha";
         video.id = 3;
         video.save();
 
-        List<DanceVideo> videos = DarfooORMDao.selectAll(DanceVideo.class);
+        List<DanceVideo> videos = DarfooORMDao.findAll(DanceVideo.class);
         Log.d("DARFOO_ORM", videos.size() + "");
         for (DanceVideo v : videos) {
             Log.d("DARFOO_ORM", "hehe");
