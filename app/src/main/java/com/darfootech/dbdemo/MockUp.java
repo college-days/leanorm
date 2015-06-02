@@ -6,6 +6,7 @@ import android.util.Log;
 
 import com.darfootech.dbdemo.darfooorm.Configuration;
 import com.darfootech.dbdemo.darfooorm.DarfooORMDao;
+import com.darfootech.dbdemo.darfooorm.Tuple;
 import com.darfootech.dbdemo.models.DanceVideo;
 
 import java.util.List;
@@ -19,9 +20,11 @@ public class MockUp extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        showVideos();
+        /*showVideos();
         deleteVideos();
-        showVideos();
+        showVideos();*/
+        //insertVideos();
+        showVideosByField();
     }
 
     public void insertVideos() {
@@ -35,6 +38,15 @@ public class MockUp extends Activity {
 
     public void showVideos() {
         List<DanceVideo> videos = DarfooORMDao.findAll(DanceVideo.class);
+        Log.d("DARFOO_ORM", videos.size() + "");
+        for (DanceVideo v : videos) {
+            Log.d("DARFOO_ORM", v.toString());
+        }
+    }
+
+    public void showVideosByField() {
+        //List<DanceVideo> videos = DarfooORMDao.findByField(DanceVideo.class, new Tuple("id", 3));
+        List<DanceVideo> videos = DarfooORMDao.findByField(DanceVideo.class, new Tuple("title", "hehe3"));
         Log.d("DARFOO_ORM", videos.size() + "");
         for (DanceVideo v : videos) {
             Log.d("DARFOO_ORM", v.toString());
