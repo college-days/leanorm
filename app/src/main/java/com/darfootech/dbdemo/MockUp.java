@@ -24,7 +24,7 @@ public class MockUp extends Activity {
         Log.d("DARFOO_ORM", (String) Configuration.getMetaData(Configuration.DARFOO_MODELS));
 
         showVideos();
-        insertVideos();
+        deleteVideos();
         showVideos();
     }
 
@@ -53,6 +53,7 @@ public class MockUp extends Activity {
             v.title = "meme";
             v.priority = "memeda";
             v.dancemusic = "dancemusic";
+            v.hot += 1;
             v.save();
         }
     }
