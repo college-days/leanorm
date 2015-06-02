@@ -24,7 +24,14 @@ public class MockUp extends Activity {
         deleteVideos();
         showVideos();*/
         //insertVideos();
-        showVideosByField();
+        //showVideosByField();
+        //addColumnToTable();
+        insertVideos();
+        showVideos();
+    }
+
+    public void addColumnToTable() {
+        Log.d("DARFOO_ORM", DarfooORMDao.executeMigrations("add_star_column_to_dancevideo") + "");
     }
 
     public void insertVideos() {
@@ -32,6 +39,8 @@ public class MockUp extends Activity {
             DanceVideo video = new DanceVideo();
             video.title = "hehe" + i;
             video.id = 3;
+            video.star = i;
+            video.starname = "star" + i;
             video.save();
         }
     }

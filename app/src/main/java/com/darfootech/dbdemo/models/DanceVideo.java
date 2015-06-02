@@ -15,8 +15,10 @@ public class DanceVideo extends DarfooORMModel {
     public String priority;
     public String dancegroup;
     public String dancemusic;
+    public String starname;
     public int hot;
     public int type;
+    public int star;
     public int update_timestamp;
 
     @Override
@@ -32,7 +34,9 @@ public class DanceVideo extends DarfooORMModel {
                 ", priority='" + priority + '\'' +
                 ", dancegroup='" + dancegroup + '\'' +
                 ", dancemusic='" + dancemusic + '\'' +
+                ", starname='" + starname + '\'' +
                 ", hot='" + hot + '\'' +
+                ", star='" + star + '\'' +
                 ", type=" + type +
                 ", update_timestamp=" + update_timestamp +
                 '}';

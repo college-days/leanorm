@@ -2,10 +2,21 @@ package com.darfootech.dbdemo.darfooorm;
 
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.text.TextUtils;
 import android.util.Log;
 
+import com.darfootech.dbdemo.darfooorm.util.IOUtils;
+import com.darfootech.dbdemo.darfooorm.util.NaturalOrderComparator;
+import com.darfootech.dbdemo.darfooorm.util.SqlParser;
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -149,5 +160,77 @@ public class DarfooORMDao {
         }
         cursor.close();
         return results;
+    }
+
+    public static boolean executeMigrations(String sqlfilename) {
+        android.util.Log.d("DARFOO_ORM", "start migration");
+        SQLiteDatabase db = DarfooORMManager.helper.getWritableDatabase();
+        boolean migrationExecuted = false;
+        try {
+            final List<String> files = Arrays.asList(Configuration.context.getAssets().list(DarfooORMDBHelper.MIGRATION_PATH));
+            Collections.sort(files, new NaturalOrderComparator());
+
+            db.beginTransaction();
+            try {
+                for (String file : files) {
+                    String filename = file.replace(".sql", "");
+                    Log.d("DARFOO_ORM", filename);
+                    if (filename.equals(sqlfilename)) {
+                        executeSqlScript(db, file);
+                        migrationExecuted = true;
+                    }
+                }
+                db.setTransactionSuccessful();
+            } finally {
+                db.endTransaction();
+            }
+        } catch (IOException e) {
+            com.darfootech.dbdemo.darfooorm.util.Log.e("Failed to execute migrations.", e);
+        }
+
+        return migrationExecuted;
+    }
+
+    public static void executeSqlScript(SQLiteDatabase db, String file) {
+        InputStream stream = null;
+        try {
+            stream = Configuration.context.getAssets().open(DarfooORMDBHelper.MIGRATION_PATH + "/" + file);
+            executeLegacySqlScript(db, stream);
+        } catch (IOException e) {
+            com.darfootech.dbdemo.darfooorm.util.Log.e("Failed to execute " + file, e);
+
+        } finally {
+            IOUtils.closeQuietly(stream);
+        }
+    }
+
+    public static void executeDelimitedSqlScript(SQLiteDatabase db, InputStream stream) throws IOException {
+        List<String> commands = SqlParser.parse(stream);
+        for (String command : commands) {
+            db.execSQL(command);
+        }
+    }
+
+    public static void executeLegacySqlScript(SQLiteDatabase db, InputStream stream) throws IOException {
+        InputStreamReader reader = null;
+        BufferedReader buffer = null;
+
+        try {
+            reader = new InputStreamReader(stream);
+            buffer = new BufferedReader(reader);
+            String line = null;
+
+            while ((line = buffer.readLine()) != null) {
+                line = line.replace(";", "").trim();
+                Log.d("DARFOO_ORM", line);
+                if (!TextUtils.isEmpty(line)) {
+                    Log.d("DARFOO_ORM", line);
+                    db.execSQL(line);
+                }
+            }
+        } finally {
+            IOUtils.closeQuietly(buffer);
+            IOUtils.closeQuietly(reader);
+        }
     }
 }
