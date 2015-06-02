@@ -12,8 +12,13 @@ public class Configuration {
     public static final String DARFOO_DB_NAME = "DARFOO_DB_NAME";
     public static final String DARFOO_DB_VERSION = "DARFOO_DB_VERSION";
     public final static String DARFOO_MODELS = "DARFOO_MODELS";
+    public final static String DARFOO_SQL_PARSER = "DARFOO_SQL_PARSER";
 
     public static Context context;
+    public final static String SQL_PARSER_LEGACY = "legacy";
+    public final static String SQL_PARSER_DELIMITED = "delimited";
+
+    public static final String DEFAULT_SQL_PARSER = SQL_PARSER_LEGACY;
 
     @SuppressWarnings("unchecked")
     public static <T> T getMetaData(String name) {
