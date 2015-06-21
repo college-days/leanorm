@@ -1,4 +1,4 @@
-package com.darfootech.dbdemo.darfooorm.util;
+package org.jihui.leanorm.util;
 
 /**
  * Created by zjh on 2015/6/2.
@@ -9,7 +9,7 @@ public final class Log {
     // PUBLIC MEMBERS
     //////////////////////////////////////////////////////////////////////////////////////
 
-    private static String sTag = "DARFOO_ORM";
+    private static String sTag = "LEAN_ORM";
     private static boolean sEnabled = true;
 
     //////////////////////////////////////////////////////////////////////////////////////

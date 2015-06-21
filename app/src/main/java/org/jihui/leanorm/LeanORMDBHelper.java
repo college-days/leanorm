@@ -1,13 +1,13 @@
-package com.darfootech.dbdemo.darfooorm;
+package org.jihui.leanorm;
 
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.text.TextUtils;
 
-import com.darfootech.dbdemo.darfooorm.util.IOUtils;
-import com.darfootech.dbdemo.darfooorm.util.Log;
-import com.darfootech.dbdemo.darfooorm.util.NaturalOrderComparator;
-import com.darfootech.dbdemo.darfooorm.util.SqlParser;
+import org.jihui.leanorm.util.IOUtils;
+import org.jihui.leanorm.util.Log;
+import org.jihui.leanorm.util.NaturalOrderComparator;
+import org.jihui.leanorm.util.SqlParser;
 
 import org.apache.commons.lang3.StringUtils;
 
@@ -24,15 +24,15 @@ import java.util.List;
 /**
  * Created by zjh on 15-4-25.
  */
-public class DarfooORMDBHelper extends SQLiteOpenHelper {
+public class LeanORMDBHelper extends SQLiteOpenHelper {
 
     private final String mSqlParser;
     public final static String MIGRATION_PATH = "migrations";
 
-    public DarfooORMDBHelper() {
+    public LeanORMDBHelper() {
         //version不需要从外部传入
-        super(Configuration.context, (String) Configuration.getMetaData(Configuration.DARFOO_DB_NAME), null, (Integer) Configuration.getMetaData(Configuration.DARFOO_DB_VERSION));
-        final String mode = Configuration.getMetaData(Configuration.DARFOO_SQL_PARSER);
+        super(Configuration.context, (String) Configuration.getMetaData(Configuration.LEAN_DB_NAME), null, (Integer) Configuration.getMetaData(Configuration.LEAN_DB_VERSION));
+        final String mode = Configuration.getMetaData(Configuration.LEAN_SQL_PARSER);
         if (mode == null) {
             mSqlParser = Configuration.DEFAULT_SQL_PARSER;
         } else {
@@ -53,12 +53,12 @@ public class DarfooORMDBHelper extends SQLiteOpenHelper {
 
     public void dropTable(SQLiteDatabase db) {
         try {
-            String[] classeNames = ((String) Configuration.getMetaData(Configuration.DARFOO_MODELS)).split(",");
+            String[] classeNames = ((String) Configuration.getMetaData(Configuration.LEAN_MODELS)).split(",");
             for (String name : classeNames) {
-                Class<? extends DarfooORMModel> resource = null;
-                resource = (Class<? extends DarfooORMModel>) Class.forName(name);
+                Class<? extends LeanORMModel> resource = null;
+                resource = (Class<? extends LeanORMModel>) Class.forName(name);
                 String dropsql = String.format("DROP TABLE IF EXISTS %s", resource.getSimpleName().toLowerCase());
-                android.util.Log.d("DARFOO_ORM", dropsql);
+                android.util.Log.d("LEAN_ORM", dropsql);
                 db.execSQL(dropsql);
             }
         } catch (ClassNotFoundException e) {
@@ -68,23 +68,23 @@ public class DarfooORMDBHelper extends SQLiteOpenHelper {
 
     private void createTable(SQLiteDatabase db) {
         try {
-            String[] classeNames = ((String) Configuration.getMetaData(Configuration.DARFOO_MODELS)).split(",");
+            String[] classeNames = ((String) Configuration.getMetaData(Configuration.LEAN_MODELS)).split(",");
             for (String name : classeNames) {
-                Class<? extends DarfooORMModel> resource = (Class<? extends DarfooORMModel>) Class.forName(name);
+                Class<? extends LeanORMModel> resource = (Class<? extends LeanORMModel>) Class.forName(name);
                 List<String> statements = new ArrayList<String>();
                 for (Field field : resource.getFields()) {
                     String fieldName = field.getName();
                     if (fieldName.toLowerCase().equals("_id")) {
                         continue;
                     }
-                    android.util.Log.d("DARFOO_ORM", "field name -> " + fieldName);
+                    android.util.Log.d("LEAN_ORM", "field name -> " + fieldName);
                     Class<?> fieldType = field.getType();
-                    android.util.Log.d("DARFOO_ORM", "field type name -> " + fieldType);
+                    android.util.Log.d("LEAN_ORM", "field type name -> " + fieldType);
                     statements.add(String.format("%s %s", fieldName, TypeClassMapping.typeClassMapping.get(fieldType)));
                 }
                 //default use _id as the primary key for specific table
                 String createsql = String.format("CREATE TABLE IF NOT EXISTS %s (_id INTEGER PRIMARY KEY AUTOINCREMENT DEFAULT 1, %s)", resource.getSimpleName().toLowerCase(), StringUtils.join(statements, ", "));
-                android.util.Log.d("DARFOO_ORM", createsql);
+                android.util.Log.d("LEAN_ORM", createsql);
                 db.execSQL(createsql);
             }
         } catch (ClassNotFoundException e) {
@@ -93,7 +93,7 @@ public class DarfooORMDBHelper extends SQLiteOpenHelper {
     }
 
     private boolean executeMigrations(SQLiteDatabase db, int oldVersion, int newVersion) {
-        android.util.Log.d("DARFOO_ORM", "start migration");
+        android.util.Log.d("LEAN_ORM", "start migration");
         boolean migrationExecuted = false;
         try {
             final List<String> files = Arrays.asList(Configuration.context.getAssets().list(MIGRATION_PATH));

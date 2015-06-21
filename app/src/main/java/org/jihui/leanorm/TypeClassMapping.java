@@ -1,4 +1,4 @@
-package com.darfootech.dbdemo.darfooorm;
+package org.jihui.leanorm;
 
 import java.util.HashMap;
 

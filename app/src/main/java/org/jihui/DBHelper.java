@@ -1,4 +1,4 @@
-package com.darfootech.dbdemo;
+package org.jihui;
 
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;

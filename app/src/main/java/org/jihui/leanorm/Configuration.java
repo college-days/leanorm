@@ -1,4 +1,4 @@
-package com.darfootech.dbdemo.darfooorm;
+package org.jihui.leanorm;
 
 import android.content.Context;
 import android.content.pm.ApplicationInfo;
@@ -9,10 +9,10 @@ import android.util.Log;
  * Created by zjh on 2015/5/23.
  */
 public class Configuration {
-    public static final String DARFOO_DB_NAME = "DARFOO_DB_NAME";
-    public static final String DARFOO_DB_VERSION = "DARFOO_DB_VERSION";
-    public final static String DARFOO_MODELS = "DARFOO_MODELS";
-    public final static String DARFOO_SQL_PARSER = "DARFOO_SQL_PARSER";
+    public static final String LEAN_DB_NAME = "LEAN_DB_NAME";
+    public static final String LEAN_DB_VERSION = "LEAN_DB_VERSION";
+    public final static String LEAN_MODELS = "LEAN_MODELS";
+    public final static String LEAN_SQL_PARSER = "LEAN_SQL_PARSER";
 
     public static Context context;
     public final static String SQL_PARSER_LEGACY = "legacy";
@@ -30,7 +30,7 @@ public class Configuration {
                 return (T) ai.metaData.get(name);
             }
         } catch (Exception e) {
-            Log.d("DARFOO_ORM", "Couldn't find meta-data: " + name);
+            Log.d("LEAN_ORM", "Couldn't find meta-data: " + name);
         }
 
         return null;

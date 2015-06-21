@@ -1,4 +1,4 @@
-package com.darfootech.dbdemo.darfooorm.util;
+package org.jihui.leanorm.util;
 
 import java.util.Comparator;
 

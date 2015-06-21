@@ -1,13 +1,12 @@
-package com.darfootech.dbdemo;
+package org.jihui;
 
 import android.app.Activity;
 import android.os.Bundle;
 import android.util.Log;
 
-import com.darfootech.dbdemo.darfooorm.Configuration;
-import com.darfootech.dbdemo.darfooorm.DarfooORMDao;
-import com.darfootech.dbdemo.darfooorm.Tuple;
-import com.darfootech.dbdemo.models.DanceVideo;
+import org.jihui.leanorm.LeanORMDao;
+import org.jihui.leanorm.Tuple;
+import org.jihui.models.DanceVideo;
 
 import java.util.List;
 
@@ -31,7 +30,7 @@ public class MockUp extends Activity {
     }
 
     public void addColumnToTable() {
-        Log.d("DARFOO_ORM", DarfooORMDao.executeMigrations("add_star_column_to_dancevideo") + "");
+        Log.d("LEAN_ORM", LeanORMDao.executeMigrations("add_star_column_to_dancevideo") + "");
     }
 
     public void insertVideos() {
@@ -46,27 +45,26 @@ public class MockUp extends Activity {
     }
 
     public void showVideos() {
-        List<DanceVideo> videos = DarfooORMDao.findAll(DanceVideo.class);
-        Log.d("DARFOO_ORM", videos.size() + "");
+        List<DanceVideo> videos = LeanORMDao.findAll(DanceVideo.class);
+        Log.d("LEAN_ORM", videos.size() + "");
         for (DanceVideo v : videos) {
-            Log.d("DARFOO_ORM", v.toString());
+            Log.d("LEAN_ORM", v.toString());
         }
     }
 
     public void showVideosByField() {
-        //List<DanceVideo> videos = DarfooORMDao.findByField(DanceVideo.class, new Tuple("id", 3));
-        List<DanceVideo> videos = DarfooORMDao.findByField(DanceVideo.class, new Tuple("title", "hehe3"));
-        Log.d("DARFOO_ORM", videos.size() + "");
+        List<DanceVideo> videos = LeanORMDao.findByField(DanceVideo.class, new Tuple("title", "hehe3"));
+        Log.d("LEAN_ORM", videos.size() + "");
         for (DanceVideo v : videos) {
-            Log.d("DARFOO_ORM", v.toString());
+            Log.d("LEAN_ORM", v.toString());
         }
     }
 
     public void updateVideos() {
-        List<DanceVideo> videos = DarfooORMDao.findAll(DanceVideo.class);
-        Log.d("DARFOO_ORM", videos.size() + "");
+        List<DanceVideo> videos = LeanORMDao.findAll(DanceVideo.class);
+        Log.d("LEAN_ORM", videos.size() + "");
         for (DanceVideo v : videos) {
-            Log.d("DARFOO_ORM", v.title);
+            Log.d("LEAN_ORM", v.title);
             v.title = "meme";
             v.priority = "memeda";
             v.dancemusic = "dancemusic";
@@ -76,21 +74,21 @@ public class MockUp extends Activity {
     }
 
     public void deleteVideos() {
-        List<DanceVideo> videos = DarfooORMDao.findAll(DanceVideo.class);
-        Log.d("DARFOO_ORM", videos.size() + "");
+        List<DanceVideo> videos = LeanORMDao.findAll(DanceVideo.class);
+        Log.d("LEAN_ORM", videos.size() + "");
         for (DanceVideo v : videos) {
-            Log.d("DARFOO_ORM", v.title);
+            Log.d("LEAN_ORM", v.title);
             v.title = "meme";
             v.delete();
         }
     }
 
     public void singleVideo() {
-        DanceVideo video = DarfooORMDao.findById(DanceVideo.class, 3);
-        Log.d("DARFOO_ORM", video.toString());
+        DanceVideo video = LeanORMDao.findById(DanceVideo.class, 3);
+        Log.d("LEAN_ORM", video.toString());
         video.title = "cleantha";
         video.save();
-        video = DarfooORMDao.findById(DanceVideo.class, 3);
-        Log.d("DARFOO_ORM", video.toString());
+        video = LeanORMDao.findById(DanceVideo.class, 3);
+        Log.d("LEAN_ORM", video.toString());
     }
 }

@@ -1,13 +1,13 @@
-package com.darfootech.dbdemo.darfooorm;
+package org.jihui.leanorm;
 
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.text.TextUtils;
 import android.util.Log;
 
-import com.darfootech.dbdemo.darfooorm.util.IOUtils;
-import com.darfootech.dbdemo.darfooorm.util.NaturalOrderComparator;
-import com.darfootech.dbdemo.darfooorm.util.SqlParser;
+import org.jihui.leanorm.util.IOUtils;
+import org.jihui.leanorm.util.NaturalOrderComparator;
+import org.jihui.leanorm.util.SqlParser;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -22,7 +22,7 @@ import java.util.List;
 /**
  * Created by zjh on 2015/5/23.
  */
-public class DarfooORMDao {
+public class LeanORMDao {
     public static Object getResourceAttr(Class resource, Object object, String fieldname) {
         try {
             Field field = resource.getField(fieldname);
@@ -37,9 +37,9 @@ public class DarfooORMDao {
     }
 
     public static <T> List<T> findByField(final Class<T> resource, Tuple condition) {
-        Log.d("DARFOO_ORM", "start to select all records");
+        Log.d("LEAN_ORM", "start to select all records");
         String tablename = resource.getSimpleName().toLowerCase();
-        SQLiteDatabase db = DarfooORMManager.helper.getReadableDatabase();
+        SQLiteDatabase db = LeanORMManager.helper.getReadableDatabase();
         Cursor cursor = db.rawQuery("select * from " + tablename + " where " + condition.left + "='" + condition.right + "'", null);
 
         List<T> results = new ArrayList<T>();
@@ -82,7 +82,7 @@ public class DarfooORMDao {
     public static <T> T findById(final Class<T> resource, long id) {
         try {
             String tablename = resource.getSimpleName().toLowerCase();
-            SQLiteDatabase db = DarfooORMManager.helper.getReadableDatabase();
+            SQLiteDatabase db = LeanORMManager.helper.getReadableDatabase();
             Cursor cursor = db.rawQuery("select * from " + tablename + " where " + "_id" + "='" + id + "'", null);
             Object result = resource.newInstance();
 
@@ -120,9 +120,9 @@ public class DarfooORMDao {
     }
 
     public static <T> List<T> findAll(final Class<T> resource) {
-        Log.d("DARFOO_ORM", "start to select all records");
+        Log.d("LEAN_ORM", "start to select all records");
         String tablename = resource.getSimpleName().toLowerCase();
-        SQLiteDatabase db = DarfooORMManager.helper.getReadableDatabase();
+        SQLiteDatabase db = LeanORMManager.helper.getReadableDatabase();
         Cursor cursor = db.query(tablename, null, null, null, null, null, "_id asc");
 
         List<T> results = new ArrayList<T>();
@@ -163,18 +163,18 @@ public class DarfooORMDao {
     }
 
     public static boolean executeMigrations(String sqlfilename) {
-        android.util.Log.d("DARFOO_ORM", "start migration");
-        SQLiteDatabase db = DarfooORMManager.helper.getWritableDatabase();
+        android.util.Log.d("LEAN_ORM", "start migration");
+        SQLiteDatabase db = LeanORMManager.helper.getWritableDatabase();
         boolean migrationExecuted = false;
         try {
-            final List<String> files = Arrays.asList(Configuration.context.getAssets().list(DarfooORMDBHelper.MIGRATION_PATH));
+            final List<String> files = Arrays.asList(Configuration.context.getAssets().list(LeanORMDBHelper.MIGRATION_PATH));
             Collections.sort(files, new NaturalOrderComparator());
 
             db.beginTransaction();
             try {
                 for (String file : files) {
                     String filename = file.replace(".sql", "");
-                    Log.d("DARFOO_ORM", filename);
+                    Log.d("LEAN_ORM", filename);
                     if (filename.equals(sqlfilename)) {
                         executeSqlScript(db, file);
                         migrationExecuted = true;
@@ -185,7 +185,7 @@ public class DarfooORMDao {
                 db.endTransaction();
             }
         } catch (IOException e) {
-            com.darfootech.dbdemo.darfooorm.util.Log.e("Failed to execute migrations.", e);
+            org.jihui.leanorm.util.Log.e("Failed to execute migrations.", e);
         }
 
         return migrationExecuted;
@@ -194,10 +194,10 @@ public class DarfooORMDao {
     public static void executeSqlScript(SQLiteDatabase db, String file) {
         InputStream stream = null;
         try {
-            stream = Configuration.context.getAssets().open(DarfooORMDBHelper.MIGRATION_PATH + "/" + file);
+            stream = Configuration.context.getAssets().open(LeanORMDBHelper.MIGRATION_PATH + "/" + file);
             executeLegacySqlScript(db, stream);
         } catch (IOException e) {
-            com.darfootech.dbdemo.darfooorm.util.Log.e("Failed to execute " + file, e);
+            org.jihui.leanorm.util.Log.e("Failed to execute " + file, e);
 
         } finally {
             IOUtils.closeQuietly(stream);
@@ -222,9 +222,9 @@ public class DarfooORMDao {
 
             while ((line = buffer.readLine()) != null) {
                 line = line.replace(";", "").trim();
-                Log.d("DARFOO_ORM", line);
+                Log.d("LEAN_ORM", line);
                 if (!TextUtils.isEmpty(line)) {
-                    Log.d("DARFOO_ORM", line);
+                    Log.d("LEAN_ORM", line);
                     db.execSQL(line);
                 }
             }

@@ -1,11 +1,11 @@
-package com.darfootech.dbdemo.models;
+package org.jihui.models;
 
-import com.darfootech.dbdemo.darfooorm.DarfooORMModel;
+import org.jihui.leanorm.LeanORMModel;
 
 /**
  * Created by zjh on 2015/5/23.
  */
-public class DanceMusic extends DarfooORMModel {
+public class DanceMusic extends LeanORMModel {
     public int id;
     public String image_url;
     public String music_url;

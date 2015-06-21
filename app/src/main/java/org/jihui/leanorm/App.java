@@ -1,4 +1,4 @@
-package com.darfootech.dbdemo.darfooorm;
+package org.jihui.leanorm;
 
 import android.app.Application;
 
@@ -9,7 +9,7 @@ public class App extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
-        DarfooORMManager.initialize(this);
+        LeanORMManager.initialize(this);
     }
 
     @Override

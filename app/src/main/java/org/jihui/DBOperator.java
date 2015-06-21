@@ -1,4 +1,4 @@
-package com.darfootech.dbdemo;
+package org.jihui;
 
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
@@ -12,7 +12,7 @@ public class DBOperator extends SQLiteOpenHelper {
         super(context, name, factory, version);
     }
 
-    //建表语句一定不能写错了 不然会导致崩溃 所以才需要有darfooorm
+    //建表语句一定不能写错了 不然会导致崩溃 所以才需要有leanorm
     @Override
     public void onCreate(SQLiteDatabase db) {
         db.execSQL("create table if not exists hero_info(" +

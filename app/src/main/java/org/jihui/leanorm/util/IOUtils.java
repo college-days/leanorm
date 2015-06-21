@@ -1,4 +1,4 @@
-package com.darfootech.dbdemo.darfooorm.util;
+package org.jihui.leanorm.util;
 
 /**
  * Created by zjh on 2015/6/2.

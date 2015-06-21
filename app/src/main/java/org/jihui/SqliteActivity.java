@@ -1,4 +1,4 @@
-package com.darfootech.dbdemo;
+package org.jihui;
 
 import android.app.Activity;
 import android.content.ContentValues;

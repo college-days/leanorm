@@ -1,4 +1,4 @@
-package com.darfootech.dbdemo;
+package org.jihui;
 
 import android.app.Activity;
 import android.content.ContentValues;
@@ -11,9 +11,9 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.TextView;
 
-import com.darfootech.dbdemo.darfooorm.Configuration;
-import com.darfootech.dbdemo.darfooorm.DarfooORMDao;
-import com.darfootech.dbdemo.models.DanceVideo;
+import org.jihui.leanorm.Configuration;
+import org.jihui.leanorm.LeanORMDao;
+import org.jihui.models.DanceVideo;
 
 import java.util.List;
 
@@ -34,20 +34,20 @@ public class MainActivity extends Activity {
         textView.setTextSize(20.0f);
         textView.setText("名字\t等级\t" + result);
 
-        Log.d("jihui", (String) Configuration.getMetaData(Configuration.DARFOO_DB_NAME));
-        Log.d("jihui", (Integer) Configuration.getMetaData(Configuration.DARFOO_DB_VERSION) + "");
-        Log.d("jihui", (String) Configuration.getMetaData(Configuration.DARFOO_MODELS));
+        Log.d("jihui", (String) Configuration.getMetaData(Configuration.LEAN_DB_NAME));
+        Log.d("jihui", (Integer) Configuration.getMetaData(Configuration.LEAN_DB_VERSION) + "");
+        Log.d("jihui", (String) Configuration.getMetaData(Configuration.LEAN_MODELS));
 
         DanceVideo video = new DanceVideo();
         video.title = "cleantha";
         video.id = 3;
         video.save();
 
-        List<DanceVideo> videos = DarfooORMDao.findAll(DanceVideo.class);
-        Log.d("DARFOO_ORM", videos.size() + "");
+        List<DanceVideo> videos = LeanORMDao.findAll(DanceVideo.class);
+        Log.d("LEAN_ORM", videos.size() + "");
         for (DanceVideo v : videos) {
-            Log.d("DARFOO_ORM", "hehe");
-            Log.d("DARFOO_ORM", v.title);
+            Log.d("LEAN_ORM", "hehe");
+            Log.d("LEAN_ORM", v.title);
             v.title = "meme";
             //v.save(operator);
             v.delete();
